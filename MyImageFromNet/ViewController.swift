@@ -14,16 +14,20 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let imageUrlString = "https://i3.read01.com/SIG=nlj5f4/304a366b324159533874.jpg"
-        
+        print("start:\(Date().timeIntervalSince1970)")
         if let url = URL(string: imageUrlString){
-            do {
-                let data = try Data(contentsOf: url)
-                theImageView.image = UIImage(data: data)
-            } catch {
-                print(error.localizedDescription)
+            DispatchQueue.global().async {
+                do {
+                    let data = try Data(contentsOf: url)
+                    DispatchQueue.main.async {
+                        self.theImageView.image = UIImage(data: data)
+                    }
+                } catch {
+                    print(error.localizedDescription)
+                }
             }
         }
-        
+        print("end:\(Date().timeIntervalSince1970)")
         
     }
 
